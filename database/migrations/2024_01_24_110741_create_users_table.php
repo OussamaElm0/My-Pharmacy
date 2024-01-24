@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pharmacies', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('INPE')->unique();
+            $table->string('name');
+            $table->foreignId("pharmacy_id")->constrained()->cascadeOnDelete();
+            $table->string("CNI",10)->unique();
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pharmacies');
+        Schema::dropIfExists('users');
     }
 };
