@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        "cni",
+        "pharmacy_id",
+        "role",
     ];
 
     /**
@@ -42,4 +45,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function pharmacy()
+    {
+        return $this->belongsTo(Pharmacy::class);
+    }
 }
