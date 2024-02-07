@@ -50,4 +50,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Pharmacy::class);
     }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }
