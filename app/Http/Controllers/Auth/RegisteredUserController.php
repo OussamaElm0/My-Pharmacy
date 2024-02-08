@@ -42,8 +42,8 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'cni' => $request->cni,
-            'pharmacy_id' => Auth::user()->pharmacy->id,
-            'role' => $request->role,
+            'pharmacy_id' => 1,
+            'role_id' => 1,
         ]);
 
         return redirect(RouteServiceProvider::HOME);
