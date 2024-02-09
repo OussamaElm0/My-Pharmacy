@@ -80,6 +80,16 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
+    public function search(Request $request)
+    {
+        $search = '%' . $request->search . '%';
+        $users = User::where('name','like',$search)->get();
+        return view('admin.usersList', [
+            'users' => $users,
+            'roles' => Role::all(),
+            'search' => $request->search,
+        ]);
+    }
     public function show(string $id)
     {
         //

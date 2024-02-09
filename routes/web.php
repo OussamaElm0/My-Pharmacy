@@ -33,8 +33,12 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'isAdmin'])->group(function() {
     Route::resource('users',UserController::class);
+    Route::controller(UserController::class)->group(function() {
+        Route::get('users/roles/{role}','byRole')->name('users.byRole');
+        Route::post('/users','search')->name('users.search');
+    });
 });
-Route::get('users/roles/{role}',[UserController::class,'byRole'])->name('users.byRole');
+
 Route::resource('products',ProductController::class);
 
 require __DIR__.'/auth.php';
