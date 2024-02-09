@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all()->where('pharmacy_id',Auth::user()->pharmacy->id);
+        $users = User::where('pharmacy_id',Auth::user()->pharmacy->id)->paginate(5);
 
         return view('admin.usersList', [
             'users' => $users,
@@ -38,7 +38,17 @@ class UserController extends Controller
             'roles' => Role::all(),
         ]);
     }
+    public function byRole(int $role)
+    {
+        $users = User::where('role_id',$role)
+                ->where('pharmacy_id', Auth::user()->pharmacy_id)
+                ->paginate(5);
 
+        return view('admin.usersList', [
+            'users' => $users,
+            'roles' => Role::all(),
+        ]);
+    }
     /**
      * Handle an incoming registration request.
      *
@@ -70,9 +80,21 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
+    public function search(Request $request)
+    {
+        $search = '%' . $request->search . '%';
+        $users = User::where('name','like',$search)->paginate(5)->get();
+        return view('admin.usersList', [
+            'users' => $users,
+            'roles' => Role::all(),
+            'search' => $request->search,
+        ]);
+    }
     public function show(string $id)
     {
-        //
+        return view('admin.showUser', [
+            'user' => User::find($id),
+        ]);
     }
 
     /**
@@ -80,7 +102,10 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view("admin.edit", [
+            'user' => User::find($id),
+            'roles' => Role::all(),
+        ]);
     }
 
     /**
@@ -88,7 +113,15 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role_id = $request->role_id;
+
+        $user->save();
+
+        return redirect()->route('users.show', ['user' => $user->id]);
     }
 
     /**
@@ -96,6 +129,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        User::destroy($id);
+
+        return redirect()->route('users.index');
     }
 }

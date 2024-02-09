@@ -9,7 +9,7 @@ class Role extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function pharmacist()
+    public function users()
     {
         return $this->hasMany(User::class);
     }

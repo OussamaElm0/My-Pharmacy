@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,13 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'isAdmin'])->group(function() {
     Route::resource('users',UserController::class);
+    Route::controller(UserController::class)->group(function() {
+        Route::get('users/roles/{role}','byRole')->name('users.byRole');
+        Route::post('/users','search')->name('users.search');
+    });
+    Route::controller(FileController::class)->group(function (){
+        Route::get('/download/users','downloadUsers')->name('download.users');
+    });
 });
 
 Route::resource('products',ProductController::class);
