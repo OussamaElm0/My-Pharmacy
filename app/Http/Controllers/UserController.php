@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all()->where('pharmacy_id',Auth::user()->pharmacy->id);
+        $users = User::where('pharmacy_id',Auth::user()->pharmacy->id)->paginate(5);
 
         return view('admin.usersList', [
             'users' => $users,
@@ -42,13 +42,14 @@ class UserController extends Controller
     {
         $users = User::where('role_id',$role)
                 ->where('pharmacy_id', Auth::user()->pharmacy_id)
-                ->get();
+                ->paginate(5);
 
         return view('admin.usersList', [
             'users' => $users,
             'roles' => Role::all(),
         ]);
     }
+
     /**
      * Handle an incoming registration request.
      *
@@ -83,7 +84,7 @@ class UserController extends Controller
     public function search(Request $request)
     {
         $search = '%' . $request->search . '%';
-        $users = User::where('name','like',$search)->get();
+        $users = User::where('name','like',$search)->paginate(5)->get();
         return view('admin.usersList', [
             'users' => $users,
             'roles' => Role::all(),
