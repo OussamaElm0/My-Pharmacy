@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'isAdmin'])->group(function() {
     Route::resource('users',UserController::class);
 });
-
+Route::get('users/roles/{role}',[UserController::class,'byRole'])->name('users.byRole');
 Route::resource('products',ProductController::class);
 
 require __DIR__.'/auth.php';

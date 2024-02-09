@@ -3,6 +3,18 @@
 @section('content')
     <div>
         <a href="{{ route('register') }}" class="btn bg-success text-light p-2 m-2">Create user</a>
+        <div class="dropdown">
+            <button class="btn bg-primary text-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter by role
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="{{ route('users.index') }}">All</a></li>
+                <li><hr class="dropdown-divider"></li>
+                @foreach($roles as $role)
+                    <li><a class="dropdown-item" href="{{ route('users.byRole', ['role' => $role->id]) }}">{{ $role->name }}</a></li>
+                @endforeach
+            </ul>
+        </div>
     </div>
     <div class="overflow-x-auto">
         <table class="table-auto w-full bg-white shadow-md rounded-lg">

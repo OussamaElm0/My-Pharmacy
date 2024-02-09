@@ -38,7 +38,17 @@ class UserController extends Controller
             'roles' => Role::all(),
         ]);
     }
+    public function byRole(int $role)
+    {
+        $users = User::where('role_id',$role)
+                ->where('pharmacy_id', Auth::user()->pharmacy_id)
+                ->get();
 
+        return view('admin.usersList', [
+            'users' => $users,
+            'roles' => Role::all(),
+        ]);
+    }
     /**
      * Handle an incoming registration request.
      *
