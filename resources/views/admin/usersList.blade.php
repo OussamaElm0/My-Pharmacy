@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    <div>
+        <a href="{{ route('register') }}" class="btn bg-success text-light p-2 m-2">Create user</a>
+    </div>
     <div class="overflow-x-auto">
         <table class="table-auto w-full bg-white shadow-md rounded-lg">
             <thead class="bg-gray-50">

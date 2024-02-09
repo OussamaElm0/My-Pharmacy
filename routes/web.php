@@ -4,6 +4,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('users',UserController::class);
+Route::middleware(['auth', 'isAdmin'])->group(function() {
+    Route::resource('users',UserController::class);
+});
+
+Route::resource('products',ProductController::class);
 
 require __DIR__.'/auth.php';
