@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserCreatedEvent;
 use App\Http\Controllers\Controller;
+use App\Mail\UserCreated;
 use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -37,7 +39,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'string', 'max:255', 'min:3'],
+            'role_id' => ['required'],
         ]);
 
         $user = User::create([
@@ -45,10 +47,12 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'cni' => $request->cni,
-            'pharmacy_id' => 1,
-            'role_id' => 1,
+            'pharmacy_id' => Auth::user()->pharmacy->id,
+            'role_id' => $request->role_id,
         ]);
 
-        return redirect(RouteServiceProvider::HOME);
+        event(new UserCreated($user));
+
+        return redirect(RouteServiceProvider::DASHBOARD)->with('success', 'User created succefully');
     }
 }
