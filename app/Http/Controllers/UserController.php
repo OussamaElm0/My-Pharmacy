@@ -49,7 +49,6 @@ class UserController extends Controller
             'roles' => Role::all(),
         ]);
     }
-
     /**
      * Handle an incoming registration request.
      *

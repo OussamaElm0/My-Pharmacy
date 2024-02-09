@@ -22,6 +22,7 @@
             <input class="form-control border border-success rounded me-2" name="search" type="search" placeholder="Search" aria-label="Search" value="{{ old('search') }}">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        <a href="{{ route('download.users') }}" class="btn btn-warning">Download users report</a>
     </div>
     <div class="overflow-x-auto">
         <table class="table-auto w-full bg-white shadow-md rounded-lg">
