@@ -1,10 +1,12 @@
 @extends('layouts.app')
-
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/users.css') }}">
+@endpush
 @section('content')
-    <div>
+    <div class="users-nav">
         <a href="{{ route('register') }}" class="btn bg-success text-light p-2 m-2">Create user</a>
         <div class="dropdown">
-            <button class="btn bg-primary text-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn bg-primary text-light dropdown-toggle p-2 m-2" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 Filter by role
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
