@@ -102,7 +102,10 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view("admin.edit", [
+            'user' => User::find($id),
+            'roles' => Role::all(),
+        ]);
     }
 
     /**
@@ -110,7 +113,15 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role_id = $request->role_id;
+
+        $user->save();
+
+        return redirect()->route('users.show', ['user' => $user->id]);
     }
 
     /**
