@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         $users = User::all()->where('pharmacy_id',Auth::user()->pharmacy->id);
 
-        return view('admin.users', [
+        return view('admin.usersList', [
             'users' => $users,
         ]);
     }
