@@ -83,7 +83,7 @@ class UserController extends Controller
     public function search(Request $request)
     {
         $search = '%' . $request->search . '%';
-        $users = User::where('name','like',$search)->paginate(5)->get();
+        $users = User::where('name','like',$search)->paginate(5);
         return view('admin.usersList', [
             'users' => $users,
             'roles' => Role::all(),
