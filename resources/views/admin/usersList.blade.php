@@ -13,7 +13,9 @@
                 <li><a class="dropdown-item" href="{{ route('users.index') }}">All</a></li>
                 <li><hr class="dropdown-divider"></li>
                 @foreach($roles as $role)
-                    <li><a class="dropdown-item" href="{{ route('users.byRole', ['role' => $role->id]) }}">{{ $role->name }}</a></li>
+                    @if($role->name != "Superuser")
+                        <li><a class="dropdown-item" href="{{ route('users.byRole', ['role' => $role->id]) }}">{{ $role->name }}</a></li>
+                    @endif
                 @endforeach
             </ul>
         </div>
