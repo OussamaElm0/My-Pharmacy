@@ -42,7 +42,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        Product::create([
+        $product = Product::create([
             "name" => $request->name,
             "type_id" => $request->type,
             "category_id" => $request->category,
@@ -51,6 +51,7 @@ class ProductController extends Controller
             "importation_date" => $request->importation_date,
             "expiration_date" => $request->expiration_date,
         ]);
+        $product->pharmacies()->syncWithoutDetaching(Auth::user()->pharmacy->id);
 
         return redirect()->route('products.index');
     }
