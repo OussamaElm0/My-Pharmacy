@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Pharmacy;
 use App\Models\Product;
+use App\Models\Type;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use JetBrains\PhpStorm\NoReturn;
 
 class ProductController extends Controller
 {
@@ -26,7 +30,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create', [
+            'types' => Type::all(),
+            'categories' => Category::all(),
+            'today' => Carbon::now()->toDateString(),
+        ]);
     }
 
     /**
@@ -34,7 +42,17 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Product::create([
+            "name" => $request->name,
+            "type_id" => $request->type,
+            "category_id" => $request->category,
+            "price" => $request->price,
+            "quantity" => $request->quantity,
+            "importation_date" => $request->importation_date,
+            "expiration_date" => $request->expiration_date,
+        ]);
+
+        return redirect()->route('products.index');
     }
 
     /**

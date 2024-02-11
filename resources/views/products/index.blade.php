@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <a href="{{ route('products.create') }}">Create</a>
     <div class="overflow-x-auto">
         <table class="table-auto w-full bg-white shadow-md rounded-lg">
             <thead class="bg-gray-50">
