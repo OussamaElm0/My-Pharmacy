@@ -14,6 +14,7 @@
                 <th class="px-4 py-2 text-left"> Quantity </th>
                 <th class="px-4 py-2 text-left"> Importation Date </th>
                 <th class="px-4 py-2 text-left"> Expiration Date </th>
+                <th class="px-4 py-2 text-left">Actions</th>
             </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
@@ -27,6 +28,15 @@
                     <td class="px-4 py-2">{{ $product->quantity   }}</td>
                     <td class="px-4 py-2">{{ $product->importation_date }}</td>
                     <td class="px-4 py-2">{{ $product->expiration_date }}</td>
+                    <td>
+                        <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
             </tbody>
