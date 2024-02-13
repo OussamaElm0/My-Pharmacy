@@ -61,7 +61,11 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product = Auth::user()->pharmacy->products()->find($id);
+
+        return view('products.show', [
+            'product' => $product
+        ]);
     }
 
     /**
