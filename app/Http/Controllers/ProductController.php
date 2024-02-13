@@ -61,7 +61,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Auth::user()->pharmacy->products()->find($id);
+        $product = Auth::user()->pharmacy->products()->findOrFail($id);
 
         return view('products.show', [
             'product' => $product
@@ -73,7 +73,13 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $product = Auth::user()->pharmacy->products()->findOrFail($id);
+
+        return view("products.edit", [
+            'product' => $product,
+            'types' => Type::all(),
+            'categories' => Type::all(),
+        ]);
     }
 
     /**
@@ -81,7 +87,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        Product::find($id)->update($request->all());
+
+        return redirect()->route("products.index");
     }
 
     /**

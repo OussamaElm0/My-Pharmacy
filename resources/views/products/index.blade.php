@@ -38,6 +38,11 @@
                                 Show
                             </a>
                         </button>
+                        <button class="btn btn-outline-warning">
+                            <a href="{{ route("products.edit",['product' => $product->id]) }}">
+                                Edit
+                            </a>
+                        </button>
                         <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="post">
                             @csrf
                             @method('DELETE')
