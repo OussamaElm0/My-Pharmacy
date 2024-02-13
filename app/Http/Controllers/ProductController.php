@@ -91,6 +91,13 @@ class ProductController extends Controller
 
         return redirect()->route("products.index");
     }
+    static
+    public function updateQuantity(string $id, int $newQuantity)
+    {
+        $product = Product::find($id);
+        $product->quantity = $newQuantity;
+        $product->save();
+    }
 
     /**
      * Remove the specified resource from storage.
