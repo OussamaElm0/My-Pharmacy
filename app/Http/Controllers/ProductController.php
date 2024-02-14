@@ -22,7 +22,11 @@ class ProductController extends Controller
     {
         $products = Pharmacy::find(Auth::user()->pharmacy->id)->products()->get();
 
-        return view('products.index',compact('products'));
+        return view('products.index',[
+            'products' => $products,
+            'types' => Type::all(),
+            'categories' => Category::all(),
+        ]);
     }
 
     /**
@@ -78,7 +82,7 @@ class ProductController extends Controller
         return view("products.edit", [
             'product' => $product,
             'types' => Type::all(),
-            'categories' => Type::all(),
+            'categories' => Category::all(),
         ]);
     }
 
@@ -107,5 +111,36 @@ class ProductController extends Controller
         Product::findOrFail($id)->delete();
 
         return redirect()->route('products.index');
+    }
+    public function byType(string $type)
+    {
+        $products = Auth::user()->pharmacy->products()->where('type_id',$type)->get();
+
+        return view("products.index", [
+            'products' => $products,
+            'types' => Type::all(),
+            'categories' => Category::all(),
+        ]);
+    }
+    public function search(Request $request)
+    {
+        $search = "%" . $request->search . "%";
+        $products = Auth::user()->pharmacy->products()->where("name", 'like', $search)->get();
+
+        return view("products.index", [
+            'products' => $products,
+            'types' => Type::all(),
+            'categories' => Category::all(),
+        ]);
+    }
+    public function byCategory(int $category)
+    {
+        $products = Auth::user()->pharmacy->products()->where('category_id',$category)->get();
+
+        return view('products.index', [
+            'products' => $products,
+            'types' => Type::all(),
+            "categories" => Category::all(),
+        ]);
     }
 }

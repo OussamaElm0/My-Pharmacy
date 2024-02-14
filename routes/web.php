@@ -36,13 +36,26 @@ Route::middleware(['auth', 'isAdmin'])->group(function() {
     Route::resource('users',UserController::class);
     Route::controller(UserController::class)->group(function() {
         Route::get('users/roles/{role}','byRole')->name('users.byRole');
-        Route::post('/users','search')->name('users.search');
+        Route::post('/users/search','search')->name('users.search');
     });
     Route::controller(FileController::class)->group(function (){
         Route::get('/download/users','downloadUsers')->name('download.users');
     });
 });
 
-Route::resource('products',ProductController::class);
+Route::middleware(['auth','haveAccessProducts'])->group(function (){
+    Route::resource('products',ProductController::class);
+    Route::controller(FileController::class)->group(function (){
+        Route::get('/download/products','downloadProducts')->name('download.products');
+    });
+    Route::controller(ProductController::class)->group(function() {
+        Route::get('products/type/{type}','byType')->name('products.byType');
+        Route::get('products/category/{category}','byCategory')->name('products.byCategory');
+        Route::post('/products/search','search')->name('products.search');
+    });
+    Route::controller(FileController::class)->group(function (){
+        Route::get('/download/products','downloadProducts')->name('download.products');
+    });
+});
 
 require __DIR__.'/auth.php';

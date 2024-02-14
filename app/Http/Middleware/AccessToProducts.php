@@ -4,9 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class checkIfSuperuser
+class AccessToProducts
 {
     /**
      * Handle an incoming request.
@@ -15,6 +16,7 @@ class checkIfSuperuser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        $currentRole = Auth::user()->role->name ;
+        return  $currentRole == "Inventory Manager" || "Administrator" ?  $next($request) : redirect()->back();
     }
 }
