@@ -126,8 +126,14 @@ class ProductController extends Controller
     {
 
     }
-    public function byCategory()
+    public function byCategory(int $category)
     {
+        $products = Auth::user()->pharmacy->products()->where('category_id',$category)->get();
 
+        return view('products.index', [
+            'products' => $products,
+            'types' => Type::all(),
+            "categories" => Category::all(),
+        ]);
     }
 }
