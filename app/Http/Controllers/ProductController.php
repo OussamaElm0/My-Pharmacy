@@ -122,9 +122,16 @@ class ProductController extends Controller
             'categories' => Category::all(),
         ]);
     }
-    public function search()
+    public function search(Request $request)
     {
+        $search = "%" . $request->search . "%";
+        $products = Auth::user()->pharmacy->products()->where("name", 'like', $search)->get();
 
+        return view("products.index", [
+            'products' => $products,
+            'types' => Type::all(),
+            'categories' => Category::all(),
+        ]);
     }
     public function byCategory(int $category)
     {

@@ -32,10 +32,10 @@
             </ul>
         </div>
 
-        <form action="{{ route("products.search") }}" method="post" class="d-flex m-2 align-self-end" role="search">
+        <form class="d-flex m-2 align-self-end" role="search" action="{{ route("products.search") }}" method="post">
             @csrf
             <input class="form-control border border-success rounded me-2" name="search" type="search" placeholder="Search by name" aria-label="Search" value="{{ old('search') }}">
-            <button type="submit" class="btn btn-outline-success">Search</button>
+            <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
 
         <a href="{{ route('download.products') }}" class="btn btn-dark p-2 m-2">
