@@ -30,6 +30,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('products',ProductController::class);
+    Route::controller(FileController::class)->group(function (){
+        Route::get('/download/products','downloadProducts')->name('download.products');
+    });
+    Route::controller(ProductController::class)->group(function() {
+        Route::get('products/type/{type}','byType')->name('products.byType');
+        Route::get('products/category/{category}','byCategory')->name('products.byCategory');
+        Route::post('products','search')->name('products.search');
+    });
 });
 
 Route::middleware(['auth', 'isAdmin'])->group(function() {
@@ -43,6 +52,6 @@ Route::middleware(['auth', 'isAdmin'])->group(function() {
     });
 });
 
-Route::resource('products',ProductController::class);
+
 
 require __DIR__.'/auth.php';

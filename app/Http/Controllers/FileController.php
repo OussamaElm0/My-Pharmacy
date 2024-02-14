@@ -23,4 +23,8 @@ class FileController extends Controller
 
         return response()->download($filePath)->deleteFileAfterSend(true);
     }
+
+    public function downloadProducts() {
+
+    }
 }

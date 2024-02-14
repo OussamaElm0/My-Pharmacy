@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @push('css')
-    <link rel="stylesheet" href="{{ asset('css/users.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
 @endpush
 @section('content')
     <div class="users-nav">
@@ -21,7 +21,7 @@
         </div>
         <form class="d-flex m-2 align-self-end" role="search" action="{{ route("users.search") }}" method="post">
             @csrf
-            <input class="form-control border border-success rounded me-2" name="search" type="search" placeholder="Search" aria-label="Search" value="{{ old('search') }}">
+            <input class="form-control border border-success rounded me-2" name="search" type="search" placeholder="Search by name" aria-label="Search" value="{{ old('search') }}">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <a href="{{ route('download.users') }}" class="btn btn-dark p-2 m-2">
