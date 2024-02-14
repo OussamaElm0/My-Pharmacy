@@ -30,19 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('products',ProductController::class);
-    Route::controller(FileController::class)->group(function (){
-        Route::get('/download/products','downloadProducts')->name('download.products');
-    });
-    Route::controller(ProductController::class)->group(function() {
-        Route::get('products/type/{type}','byType')->name('products.byType');
-        Route::get('products/category/{category}','byCategory')->name('products.byCategory');
-        Route::post('products','search')->name('products.search');
-    });
 });
 
 Route::middleware(['auth', 'isAdmin'])->group(function() {
-    Route::resource('users',UserController::class);
     Route::controller(UserController::class)->group(function() {
         Route::get('users/roles/{role}','byRole')->name('users.byRole');
         Route::post('/users','search')->name('users.search');
@@ -50,8 +40,20 @@ Route::middleware(['auth', 'isAdmin'])->group(function() {
     Route::controller(FileController::class)->group(function (){
         Route::get('/download/users','downloadUsers')->name('download.users');
     });
+    Route::resource('users',UserController::class);
 });
 
+Route::middleware(['auth','haveAccessProducts'])->group(function (){
+    Route::controller(FileController::class)->group(function (){
+        Route::get('/download/products','downloadProducts')->name('download.products');
+    });
+    Route::resource('products',ProductController::class);
+    Route::controller(ProductController::class)->group(function() {
+        Route::get('products/type/{type}','byType')->name('products.byType');
+        Route::get('products/category/{category}','byCategory')->name('products.byCategory');
+        Route::post('products','search')->name('products.search');
+    });
 
+});
 
 require __DIR__.'/auth.php';

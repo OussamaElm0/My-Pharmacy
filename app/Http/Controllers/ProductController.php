@@ -112,13 +112,19 @@ class ProductController extends Controller
 
         return redirect()->route('products.index');
     }
-    public function byType()
+    public function byType(string $type)
     {
+        $products = Auth::user()->pharmacy->products()->where('type_id',$type)->get();
 
+        return view("products.index", [
+            'products' => $products,
+            'types' => Type::all(),
+            'categories' => Category::all(),
+        ]);
     }
     public function search()
     {
-        dd(true);
+
     }
     public function byCategory()
     {
