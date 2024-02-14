@@ -53,6 +53,9 @@ Route::middleware(['auth','haveAccessProducts'])->group(function (){
         Route::get('products/category/{category}','byCategory')->name('products.byCategory');
         Route::post('/products/search','search')->name('products.search');
     });
+    Route::controller(FileController::class)->group(function (){
+        Route::get('/download/products','downloadProducts')->name('download.products');
+    });
 });
 
 require __DIR__.'/auth.php';
