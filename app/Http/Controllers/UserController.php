@@ -82,6 +82,9 @@ class UserController extends Controller
      */
     public function search(Request $request)
     {
+        if(empty($request->search)) {
+            return redirect()->route("products.index");
+        }
         $search = '%' . $request->search . '%';
         $users = User::where('name','like',$search)->paginate(5);
         return view('admin.usersList', [
