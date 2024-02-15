@@ -28,8 +28,9 @@ class UserCreated extends Mailable
      */
     public function envelope(): Envelope
     {
+        $addressMail = Auth::user()->name . '@mypharmacy.ma';
         return new Envelope(
-            from: new Address(env('MAIL_FROM_ADDRESS'), Auth::user()->name),
+            from: new Address(env('MAIL_FROM_ADDRESS'), $addressMail),
             subject: 'User Created',
         );
     }

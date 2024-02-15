@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\QuantityInsufficientMail;
 use App\Models\Category;
 use App\Models\Pharmacy;
 use App\Models\Product;
@@ -22,7 +23,7 @@ class ProductController extends Controller
     {
         $products = Pharmacy::find(Auth::user()->pharmacy->id)->products()->get();
 
-        return view('products.index',[
+        return view('products.index', [
             'products' => $products,
             'types' => Type::all(),
             'categories' => Category::all(),
@@ -91,10 +92,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        Product::find($id)->update($request->all());
+        $product = Product::find($id);
+        $product->update($request->all());
 
         return redirect()->route("products.index");
     }
+
     static
     public function updateQuantity(string $id, int $newQuantity)
     {
@@ -112,9 +115,10 @@ class ProductController extends Controller
 
         return redirect()->route('products.index');
     }
+
     public function byType(string $type)
     {
-        $products = Auth::user()->pharmacy->products()->where('type_id',$type)->get();
+        $products = Auth::user()->pharmacy->products()->where('type_id', $type)->get();
 
         return view("products.index", [
             'products' => $products,
@@ -122,6 +126,7 @@ class ProductController extends Controller
             'categories' => Category::all(),
         ]);
     }
+
     public function search(Request $request)
     {
         $search = "%" . $request->search . "%";
@@ -133,9 +138,10 @@ class ProductController extends Controller
             'categories' => Category::all(),
         ]);
     }
+
     public function byCategory(int $category)
     {
-        $products = Auth::user()->pharmacy->products()->where('category_id',$category)->get();
+        $products = Auth::user()->pharmacy->products()->where('category_id', $category)->get();
 
         return view('products.index', [
             'products' => $products,
