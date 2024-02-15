@@ -22,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserCreatedEvent::class => [
             SendVerificationMailListner::class,
-        ]
+        ],
     ];
 
     /**
