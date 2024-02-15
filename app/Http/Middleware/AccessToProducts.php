@@ -17,6 +17,6 @@ class AccessToProducts
     public function handle(Request $request, Closure $next): Response
     {
         $currentRole = Auth::user()->role->name ;
-        return  $currentRole == "Inventory Manager" || "Administrator" ?  $next($request) : redirect()->back();
+        return  $currentRole == "Inventory Manager" || $currentRole == "Administrator" ?  $next($request) : redirect()->back();
     }
 }

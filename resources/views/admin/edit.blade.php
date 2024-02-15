@@ -28,7 +28,9 @@
                                 <label for="role">Role</label>
                                 <select id="role" name="role_id" class="form-control">
                                     @foreach($roles as $role)
-                                        <option value="{{ $role->id }}" {{ $role->name == $user->role->name ? 'selected' : '' }}>{{ $role->name }}</option>
+                                        @if($role->name != "Superuser")
+                                            <option value="{{ $role->id }}" {{ $role->name == $user->role->name ? 'selected' : '' }}>{{ $role->name }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
