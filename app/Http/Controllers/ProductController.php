@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Mail\QuantityInsufficientMail;
 use App\Models\Category;
 use App\Models\Pharmacy;
 use App\Models\Product;
@@ -19,15 +18,24 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Pharmacy::find(Auth::user()->pharmacy->id)->products()->get();
-
-        return view('products.index', [
-            'products' => $products,
+        $data = [
+            'products',
             'types' => Type::all(),
             'categories' => Category::all(),
-        ]);
+        ];
+        $orderBy = $request->query->get('orderBy');
+        if(empty($orderBy)){
+            $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->get();
+        }
+
+        if($orderBy == 'Desc') {
+            $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderByDesc('quantity')->get();
+        } else if ($orderBy == 'Asc') {
+            $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderBy('quantity')->get();
+        }
+        return view('products.index', $data);
     }
 
     /**
@@ -47,6 +55,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|min:3',
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|numeric|min:0',
+            'importation_date' => 'required|date',
+            'expiration_date' => 'required|date|after:importation_date',
+        ]);
+
         $product = Product::create([
             "name" => $request->name,
             "type_id" => $request->type,
