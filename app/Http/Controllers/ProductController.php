@@ -145,6 +145,9 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
+        if(empty($request->search)) {
+            return redirect()->route("products.index");
+        }
         $search = "%" . $request->search . "%";
         $products = Auth::user()->pharmacy->products()->where("name", 'like', $search)->get();
 
