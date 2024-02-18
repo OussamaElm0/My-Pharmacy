@@ -26,15 +26,17 @@ class ProductController extends Controller
             'categories' => Category::all(),
         ];
         $orderBy = $request->query->get('orderBy');
-        if(empty($orderBy)){
+        if(!empty($orderBy)){
+            $data['orderQuery'] = $orderBy;
+            if($orderBy == 'Desc') {
+                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderByDesc('quantity')->get();
+            } else if ($orderBy == 'Asc') {
+                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderBy('quantity')->get();
+            }
+        } else {
             $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->get();
         }
 
-        if($orderBy == 'Desc') {
-            $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderByDesc('quantity')->get();
-        } else if ($orderBy == 'Asc') {
-            $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderBy('quantity')->get();
-        }
         return view('products.index', $data);
     }
 

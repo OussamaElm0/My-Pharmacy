@@ -4,19 +4,27 @@ namespace App\Livewire;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class OrderQuantity extends Component
 {
-    public $order = 'Desc';
+    #[Url(as: 'orderBy')]
+    public $order ;
 
     public function handleOrder() {
-        if ($this->order === 'Desc') {
-            $this->order = 'Asc';
-        } else {
-            $this->order = 'Desc';
+        switch ($this->order) {
+            case '':
+                $this->order = 'Desc';
+                break;
+            case 'Desc':
+                $this->order = 'Asc';
+                break;
+            case 'Asc':
+                $this->order = '';
+                break;
         }
-        Log::info($this->order);
+        return redirect()->route('products.index', ['orderBy' => $this->order]);
     }
     public function render()
     {
