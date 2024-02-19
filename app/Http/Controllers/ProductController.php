@@ -34,7 +34,7 @@ class ProductController extends Controller
                 $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderBy('quantity')->get();
             }
         } else {
-            $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->get();
+            $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->paginate(4);
         }
 
         return view('products.index', $data);
