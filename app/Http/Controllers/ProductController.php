@@ -26,6 +26,7 @@ class ProductController extends Controller
             'categories' => Category::all(),
         ];
         $orderBy = $request->query->get('orderBy');
+        //Order products by query's value
         if(!empty($orderBy)){
             $data['orderQuery'] = $orderBy;
             if($orderBy == 'Desc') {
@@ -133,7 +134,9 @@ class ProductController extends Controller
 
         return redirect()->route('products.index');
     }
-
+    /**
+     * Display list of products by type
+     */
     public function byType(string $type)
     {
         $products = Auth::user()->pharmacy->products()->where('type_id', $type)->get();
@@ -144,7 +147,9 @@ class ProductController extends Controller
             'categories' => Category::all(),
         ]);
     }
-
+    /**
+     * Display list of products by searching
+     */
     public function search(Request $request)
     {
         if(empty($request->search)) {
@@ -159,7 +164,9 @@ class ProductController extends Controller
             'categories' => Category::all(),
         ]);
     }
-
+    /**
+     * Display list of products by category
+     */
     public function byCategory(int $category)
     {
         $products = Auth::user()->pharmacy->products()->where('category_id', $category)->get();
