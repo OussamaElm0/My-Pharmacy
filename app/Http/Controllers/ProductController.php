@@ -139,7 +139,7 @@ class ProductController extends Controller
      */
     public function byType(string $type)
     {
-        $products = Auth::user()->pharmacy->products()->where('type_id', $type)->get();
+        $products = Auth::user()->pharmacy->products()->where('type_id', $type)->paginate(4);
 
         return view("products.index", [
             'products' => $products,
@@ -156,7 +156,7 @@ class ProductController extends Controller
             return redirect()->route("products.index");
         }
         $search = "%" . $request->search . "%";
-        $products = Auth::user()->pharmacy->products()->where("name", 'like', $search)->get();
+        $products = Auth::user()->pharmacy->products()->where("name", 'like', $search)->paginate(4);
 
         return view("products.index", [
             'products' => $products,
@@ -169,7 +169,7 @@ class ProductController extends Controller
      */
     public function byCategory(int $category)
     {
-        $products = Auth::user()->pharmacy->products()->where('category_id', $category)->get();
+        $products = Auth::user()->pharmacy->products()->where('category_id', $category)->paginate(4);
 
         return view('products.index', [
             'products' => $products,
