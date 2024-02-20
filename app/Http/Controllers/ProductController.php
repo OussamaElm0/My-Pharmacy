@@ -30,9 +30,9 @@ class ProductController extends Controller
         if(!empty($orderBy)){
             $data['orderQuery'] = $orderBy;
             if($orderBy == 'Desc') {
-                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderByDesc('quantity')->get();
+                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderByDesc('quantity')->paginate(4);
             } else if ($orderBy == 'Asc') {
-                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderBy('quantity')->get();
+                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderBy('quantity')->paginate(4);
             }
         } else {
             $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->paginate(4);
