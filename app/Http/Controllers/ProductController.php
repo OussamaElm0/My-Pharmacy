@@ -30,12 +30,20 @@ class ProductController extends Controller
         if(!empty($orderBy)){
             $data['orderQuery'] = $orderBy;
             if($orderBy == 'Desc') {
-                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderByDesc('quantity')->paginate(4);
-            } else if ($orderBy == 'Asc') {
-                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->orderBy('quantity')->paginate(4);
+                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)
+                    ->products()
+                    ->orderByDesc('quantity')
+                    ->paginate(4);
+            } elseif ($orderBy == 'Asc') {
+                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)
+                    ->products()
+                    ->orderBy('quantity')
+                    ->paginate(4);
             }
         } else {
-            $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)->products()->paginate(4);
+            $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)
+                ->products()
+                ->paginate(4);
         }
 
         return view('products.index', $data);
@@ -116,9 +124,7 @@ class ProductController extends Controller
 
         return redirect()->route("products.index");
     }
-
-    static
-    public function updateQuantity(string $id, int $newQuantity)
+    public static function updateQuantity(string $id, int $newQuantity)
     {
         $product = Product::find($id);
         $product->quantity = $newQuantity;
