@@ -124,6 +124,7 @@ class ProductController extends Controller
 
         return redirect()->route("products.index");
     }
+
     public static function updateQuantity(string $id, int $newQuantity)
     {
         $product = Product::find($id);
