@@ -26,24 +26,24 @@ class ProductController extends Controller
             'categories' => Category::all(),
         ];
         $orderBy = $request->query->get('orderBy');
-        //Order products by query's value
-        if(!empty($orderBy)){
-            $data['orderQuery'] = $orderBy;
-            if($orderBy == 'Desc') {
-                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)
-                    ->products()
-                    ->orderByDesc('quantity')
-                    ->paginate(4);
-            } elseif ($orderBy == 'Asc') {
+        switch ($orderBy) {
+            case 'Asc':
                 $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)
                     ->products()
                     ->orderBy('quantity')
                     ->paginate(4);
-            }
-        } else {
-            $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)
-                ->products()
-                ->paginate(4);
+                break;
+            case 'Desc':
+                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)
+                    ->products()
+                    ->orderByDesc('quantity')
+                    ->paginate(4);
+                break;
+            default:
+                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)
+                    ->products()
+                    ->paginate(4);
+                break;
         }
 
         return view('products.index', $data);
@@ -143,9 +143,34 @@ class ProductController extends Controller
     /**
      * Display list of products by type
      */
-    public function byType(string $type)
+    public function byType(Request $request,string $type)
     {
-        $products = Auth::user()->pharmacy->products()->where('type_id', $type)->paginate(4);
+        $order = $request->query('orderBy');
+        switch ($order) {
+            case 'Desc' :
+                $products = Auth::user()
+                    ->pharmacy
+                    ->products()
+                    ->where('type_id', $type)
+                    ->orderByDesc('quantity')
+                    ->paginate(4);
+                break;
+            case 'Asc' :
+                $products = Auth::user()
+                    ->pharmacy
+                    ->products()
+                    ->where('type_id', $type)
+                    ->orderBy('quantity')
+                    ->paginate(4);
+                break;
+            default:
+                $products = Auth::user()
+                    ->pharmacy
+                    ->products()
+                    ->where('type_id', $type)
+                    ->paginate(4);
+                break;
+        }
 
         return view("products.index", [
             'products' => $products,
@@ -173,14 +198,39 @@ class ProductController extends Controller
     /**
      * Display list of products by category
      */
-    public function byCategory(int $category)
+    public function byCategory(Request $request ,int $category)
     {
-        $products = Auth::user()->pharmacy->products()->where('category_id', $category)->paginate(4);
+        $order = $request->query('orderBy');
+        switch ($order) {
+            case 'Desc' :
+                $products = Auth::user()
+                    ->pharmacy
+                    ->products()
+                    ->where('category_id', $category)
+                    ->orderByDesc('quantity')
+                    ->paginate(4);
+                break;
+            case 'Asc' :
+                $products = Auth::user()
+                    ->pharmacy
+                    ->products()
+                    ->where('category_id', $category)
+                    ->orderBy('quantity')
+                    ->paginate(4);
+                break;
+            default:
+                $products = Auth::user()
+                    ->pharmacy
+                    ->products()
+                    ->where('category_id', $category)
+                    ->paginate(4);
+                break;
+        }
 
-        return view('products.index', [
+        return view("products.index", [
             'products' => $products,
             'types' => Type::all(),
-            "categories" => Category::all(),
+            'categories' => Category::all(),
         ]);
     }
 }

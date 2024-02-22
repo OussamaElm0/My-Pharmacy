@@ -8,26 +8,39 @@
     <div class="users-nav">
         <a href="{{ route('products.create') }}" class="btn bg-success text-light p-2 m-2">Create product</a>
         <div class="dropdown">
-            <button class="btn bg-primary text-light dropdown-toggle p-2 m-2" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn bg-primary text-light dropdown-toggle p-2 m-2"
+                    type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                    aria-expanded="false">
                 Filter by type
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item" href="{{ route('products.index') }}">All</a></li>
                 <li><hr class="dropdown-divider"></li>
                 @foreach($types as $type)
-                    <li><a class="dropdown-item" href="{{ route('products.byType', ['type' => $type->id]) }}">{{ $type->name }}</a></li>
+                    <li>
+                        <a class="dropdown-item"
+                           href="{{ route('products.byType', ['type' => $type->id]) }}"
+                        >{{ $type->name }}</a>
+                    </li>
                 @endforeach
             </ul>
         </div>
         <div class="dropdown">
-            <button class="btn bg-primary text-light dropdown-toggle p-2 m-2" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn bg-primary text-light dropdown-toggle p-2 m-2"
+                    type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                    aria-expanded="false">
                 Filter by category
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item" href="{{ route('products.index') }}">All</a></li>
                 <li><hr class="dropdown-divider"></li>
                 @foreach($categories as $category)
-                    <li><a class="dropdown-item" href="{{ route('products.byCategory', ['category' => $category->id]) }}">{{ $category->name }}</a></li>
+                    <li>
+                        <a class="dropdown-item"
+                           href="{{ route('products.byCategory', ['category' => $category->id]) }}">
+                            {{ $category->name }}
+                        </a>
+                    </li>
                 @endforeach
             </ul>
         </div>
@@ -39,8 +52,12 @@
         </form>
 
         <a href="{{ route('download.products') }}" class="btn btn-dark p-2 m-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-file-earmark-arrow-down-fill" viewBox="0 0 16 16">
-                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1m-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0"/>
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="25" height="25" fill="currentColor"
+                 class="bi bi-file-earmark-arrow-down-fill" viewBox="0 0 16 16">
+                <path
+                    d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1m-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0"
+                />
             </svg>
         </a>
     </div>
