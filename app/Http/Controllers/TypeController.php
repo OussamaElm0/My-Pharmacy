@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TypeController extends Controller
 {
@@ -12,7 +14,15 @@ class TypeController extends Controller
      */
     public function index()
     {
-        //
+        $products = Auth::user()->pharmacy
+                ->products()
+                ->get();
+        $type = [];
+        foreach ($products as $product):
+            array_push($type,$product->type->name);
+            $types = array_unique($type);
+        endforeach;
+        dd($types);
     }
 
     /**

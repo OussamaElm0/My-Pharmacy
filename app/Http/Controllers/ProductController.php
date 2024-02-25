@@ -138,7 +138,7 @@ class ProductController extends Controller
     {
         Product::findOrFail($id)->delete();
 
-        return redirect()->route('products.index');
+        return redirect()->back();
     }
     /**
      * Display list of products by type
