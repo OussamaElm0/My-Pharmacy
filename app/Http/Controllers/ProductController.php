@@ -26,7 +26,6 @@ class ProductController extends Controller
             'categories' => Category::all(),
         ];
         $orderBy = $request->query->get('orderBy');
-
         switch ($orderBy) {
             case 'Asc':
                 $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)
