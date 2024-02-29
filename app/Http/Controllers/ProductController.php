@@ -136,7 +136,9 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        Product::findOrFail($id)->delete();
+        Auth::user()->pharmacy
+            ->products()
+            ->detach($id);
 
         return redirect()->back();
     }
