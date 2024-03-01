@@ -132,7 +132,11 @@ class ProductController extends Controller
     public static function updateQuantity(string $id, int $newQuantity)
     {
         $product = Product::find($id);
-        $product->quantity = $newQuantity;
+        $pharmacy = Auth::user()
+                    ->pharmacy
+                    ->id;
+        $product->pharmacies()
+                ->updateExistingPivot($pharmacy, ['quantity' => $newQuantity]);
         $product->save();
     }
 

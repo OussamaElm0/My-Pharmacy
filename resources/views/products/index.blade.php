@@ -84,7 +84,7 @@
                     <td class="px-4 py-2">{{ $product->type->name }}</td>
                     <td class="px-4 py-2">{{ $product->category->name }}</td>
                     <td class="px-4 py-2">{{ $product->price }}</td>
-                    <livewire:product-quantity :currentQuantity="$product->quantity" :id="$product->id" />
+                    <livewire:product-quantity :currentQuantity="$product->pivot->quantity" :id="$product->id" />
                     <td class="px-4 py-2">{{ $product->importation_date }}</td>
                     <td class="px-4 py-2">{{ $product->expiration_date }}</td>
                     <td>
