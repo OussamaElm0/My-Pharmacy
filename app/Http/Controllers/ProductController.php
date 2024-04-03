@@ -18,15 +18,35 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Pharmacy::find(Auth::user()->pharmacy->id)->products()->get();
-
-        return view('products.index',[
-            'products' => $products,
+        $data = [
+            'products',
             'types' => Type::all(),
             'categories' => Category::all(),
-        ]);
+        ];
+        $orderBy = $request->query->get('orderBy');
+        switch ($orderBy) {
+            case 'Asc':
+                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)
+                    ->products()
+                    ->orderBy('quantity')
+                    ->paginate(4);
+                break;
+            case 'Desc':
+                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)
+                    ->products()
+                    ->orderByDesc('quantity')
+                    ->paginate(4);
+                break;
+            default:
+                $data['products'] = Pharmacy::find(Auth::user()->pharmacy->id)
+                    ->products()
+                    ->paginate(4);
+                break;
+        }
+
+        return view('products.index', $data);
     }
 
     /**
@@ -46,16 +66,29 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = Product::create([
-            "name" => $request->name,
-            "type_id" => $request->type,
-            "category_id" => $request->category,
-            "price" => $request->price,
-            "quantity" => $request->quantity,
-            "importation_date" => $request->importation_date,
-            "expiration_date" => $request->expiration_date,
+        $request->validate([
+            'name' => 'required|min:3',
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|numeric|min:0',
+            'importation_date' => 'required|date',
+            'expiration_date' => 'required|date|after:importation_date',
         ]);
-        $product->pharmacies()->syncWithoutDetaching(Auth::user()->pharmacy->id);
+
+        $productsExist = Product::where('name',$request->name)->first();
+        if (!$productsExist) {
+            $product = Product::create([
+                "name" => $request->name,
+                "type_id" => $request->type,
+                "category_id" => $request->category,
+                "price" => $request->price,
+                "quantity" => $request->quantity,
+                "importation_date" => $request->importation_date,
+                "expiration_date" => $request->expiration_date,
+            ]);
+            $product->pharmacies()->syncWithoutDetaching(Auth::user()->pharmacy->id);
+        } else {
+            $productsExist->pharmacies()->syncWithoutDetaching(Auth::user()->pharmacy->id);
+        }
 
         return redirect()->route('products.index');
     }
@@ -91,15 +124,19 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        Product::find($id)->update($request->all());
+        $product = Product::find($id);
+        $product->update($request->all());
 
         return redirect()->route("products.index");
     }
-    static
-    public function updateQuantity(string $id, int $newQuantity)
+    public static function updateQuantity(string $id, int $newQuantity)
     {
         $product = Product::find($id);
-        $product->quantity = $newQuantity;
+        $pharmacy = Auth::user()
+                    ->pharmacy
+                    ->id;
+        $product->pharmacies()
+                ->updateExistingPivot($pharmacy, ['quantity' => $newQuantity]);
         $product->save();
     }
 
@@ -108,13 +145,43 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        Product::findOrFail($id)->delete();
+        Auth::user()->pharmacy
+            ->products()
+            ->detach($id);
 
-        return redirect()->route('products.index');
+        return redirect()->back();
     }
-    public function byType(string $type)
+    /**
+     * Display list of products by type
+     */
+    public function byType(Request $request,string $type)
     {
-        $products = Auth::user()->pharmacy->products()->where('type_id',$type)->get();
+        $order = $request->query('orderBy');
+        switch ($order) {
+            case 'Desc' :
+                $products = Auth::user()
+                    ->pharmacy
+                    ->products()
+                    ->where('type_id', $type)
+                    ->orderByDesc('quantity')
+                    ->paginate(4);
+                break;
+            case 'Asc' :
+                $products = Auth::user()
+                    ->pharmacy
+                    ->products()
+                    ->where('type_id', $type)
+                    ->orderBy('quantity')
+                    ->paginate(4);
+                break;
+            default:
+                $products = Auth::user()
+                    ->pharmacy
+                    ->products()
+                    ->where('type_id', $type)
+                    ->paginate(4);
+                break;
+        }
 
         return view("products.index", [
             'products' => $products,
@@ -122,10 +189,16 @@ class ProductController extends Controller
             'categories' => Category::all(),
         ]);
     }
+    /**
+     * Display list of products by searching
+     */
     public function search(Request $request)
     {
+        if(empty($request->search)) {
+            return redirect()->route("products.index");
+        }
         $search = "%" . $request->search . "%";
-        $products = Auth::user()->pharmacy->products()->where("name", 'like', $search)->get();
+        $products = Auth::user()->pharmacy->products()->where("name", 'like', $search)->paginate(4);
 
         return view("products.index", [
             'products' => $products,
@@ -133,14 +206,42 @@ class ProductController extends Controller
             'categories' => Category::all(),
         ]);
     }
-    public function byCategory(int $category)
+    /**
+     * Display list of products by category
+     */
+    public function byCategory(Request $request ,int $category)
     {
-        $products = Auth::user()->pharmacy->products()->where('category_id',$category)->get();
+        $order = $request->query('orderBy');
+        switch ($order) {
+            case 'Desc' :
+                $products = Auth::user()
+                    ->pharmacy
+                    ->products()
+                    ->where('category_id', $category)
+                    ->orderByDesc('quantity')
+                    ->paginate(4);
+                break;
+            case 'Asc' :
+                $products = Auth::user()
+                    ->pharmacy
+                    ->products()
+                    ->where('category_id', $category)
+                    ->orderBy('quantity')
+                    ->paginate(4);
+                break;
+            default:
+                $products = Auth::user()
+                    ->pharmacy
+                    ->products()
+                    ->where('category_id', $category)
+                    ->paginate(4);
+                break;
+        }
 
-        return view('products.index', [
+        return view("products.index", [
             'products' => $products,
             'types' => Type::all(),
-            "categories" => Category::all(),
+            'categories' => Category::all(),
         ]);
     }
 }

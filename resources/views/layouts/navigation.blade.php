@@ -20,12 +20,12 @@
                             {{ __('Users') }}
                         </x-nav-link>
                     @endif
-                    <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-                        {{ __('Products') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('types.index')" :active="request()->routeIs('types.index')">
-                        {{ __('Types') }}
-                    </x-nav-link>
+
+                    @if(Auth::user()->role->name != "Cashier")
+                        <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+                            {{ __('Products') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
