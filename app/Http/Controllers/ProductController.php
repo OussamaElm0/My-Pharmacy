@@ -75,17 +75,20 @@ class ProductController extends Controller
         ]);
 
         $productsExist = Product::where('name',$request->name)->first();
+
         if (!$productsExist) {
             $product = Product::create([
                 "name" => $request->name,
                 "type_id" => $request->type,
                 "category_id" => $request->category,
                 "price" => $request->price,
-                "quantity" => $request->quantity,
                 "importation_date" => $request->importation_date,
                 "expiration_date" => $request->expiration_date,
             ]);
-            $product->pharmacies()->syncWithoutDetaching(Auth::user()->pharmacy->id);
+            $product->pharmacies()->attach(
+                Auth::user()->pharmacy->id,
+                ["quantity" => $request->quantity,]
+            );
         } else {
             $productsExist->pharmacies()->syncWithoutDetaching(Auth::user()->pharmacy->id);
         }
