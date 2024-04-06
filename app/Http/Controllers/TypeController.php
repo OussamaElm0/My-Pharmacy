@@ -22,6 +22,9 @@ class TypeController extends Controller
             array_push($type,$product->type->name);
             $types = array_unique($type);
         endforeach;
+        foreach (Type::all() as $typee):
+            dd($typee->products);
+        endforeach;
         dd($types);
     }
 

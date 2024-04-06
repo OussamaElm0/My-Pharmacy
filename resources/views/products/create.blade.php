@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="post" action="{{ route('products.store') }}">
+    <form method="post" action="{{ route('products.store') }}" enctype="multipart/form-data">
         @csrf
 
         <!-- Product Name -->
@@ -43,6 +43,13 @@
             <x-input-label for="quantity" :value="__('Quantity')" />
             <x-text-input id="quantity" class="block mt-1 w-full" type="number" step="1" min="0" name="quantity" :value="old('quantity')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('quantity')" class="mt-2" />
+        </div>
+
+        <!-- Image -->
+        <div>
+            <x-input-label for="Image" :value="__('Image')" />
+            <x-text-input id="Image" class="block mt-1 w-full" type="file" name="image" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('image')" class="mt-2" />
         </div>
 
         <!-- Importation Date -->

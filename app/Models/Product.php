@@ -16,7 +16,7 @@ class Product extends Model
         'type_id',
         'category_id',
         'price',
-        'quantity',
+        'image',
         'importation_date',
         'expiration_date',
     ] ;
