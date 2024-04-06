@@ -82,15 +82,14 @@ class ProductController extends Controller
         //Check if the product exists or not
         if (!$productsExist) {
             $imageName = time() . "." . $request->file('image')->getClientOriginalExtension();
-            // Ensure directory exists
-            $imagePath = $request->file('image')->store('images/products');
+            $request->file('image')->move(public_path('images/products'), $imageName);
 
             $product = Product::create([
                 "name" => $request->name,
                 "type_id" => $request->type,
                 "category_id" => $request->category,
                 "price" => $request->price,
-                'image' => $imagePath,
+                'image' => $imageName,
                 "importation_date" => $request->importation_date,
                 "expiration_date" => $request->expiration_date,
             ]);
