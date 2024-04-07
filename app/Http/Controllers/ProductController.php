@@ -11,7 +11,9 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use JetBrains\PhpStorm\NoReturn;
+use function Webmozart\Assert\Tests\StaticAnalysis\null;
 
 class ProductController extends Controller
 {
@@ -72,25 +74,33 @@ class ProductController extends Controller
             'quantity' => 'required|numeric|min:0',
             'importation_date' => 'required|date',
             'expiration_date' => 'required|date|after:importation_date',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $productsExist = Product::where('name',$request->name)->first();
 
         if (!$productsExist) {
+            $imageName = time() . "." . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move(public_path('images/products'), $imageName);
+
             $product = Product::create([
                 "name" => $request->name,
                 "type_id" => $request->type,
                 "category_id" => $request->category,
                 "price" => $request->price,
+                'image' => $imageName,
                 "importation_date" => $request->importation_date,
                 "expiration_date" => $request->expiration_date,
             ]);
             $product->pharmacies()->attach(
                 Auth::user()->pharmacy->id,
-                ["quantity" => $request->quantity,]
+                ['quantity' => $request->quantity]
             );
         } else {
-            $productsExist->pharmacies()->syncWithoutDetaching(Auth::user()->pharmacy->id);
+            $productsExist->pharmacies()->syncWithoutDetaching(
+                Auth::user()->pharmacy->id,
+                ['quantity' => $request->quantity]
+            );
         }
 
         return redirect()->route('products.index');

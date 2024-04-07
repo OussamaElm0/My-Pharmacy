@@ -20,6 +20,7 @@
                             {{ __('Users') }}
                         </x-nav-link>
                     @endif
+
                     @if(Auth::user()->role->name != "Cashier")
                         <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
                             {{ __('Products') }}

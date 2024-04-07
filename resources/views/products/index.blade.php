@@ -67,6 +67,7 @@
             <tr>
                 <th class="px-4 py-2 text-left"> # </th>
                 <th class="px-4 py-2 text-left"> Name </th>
+                <th class="px-4 py-2 text-left"> Image </th>
                 <th class="px-4 py-2 text-left"> Type </th>
                 <th class="px-4 py-2 text-left"> Category </th>
                 <th class="px-4 py-2 text-left"> Price </th>
@@ -81,6 +82,9 @@
                 <tr>
                     <td class="px-4 py-2">{{ $product->id }}</td>
                     <td class="px-4 py-2">{{ $product->name }}</td>
+                    <td class="px-4 py-2">
+                        <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}">
+                    </td>
                     <td class="px-4 py-2">{{ $product->type->name }}</td>
                     <td class="px-4 py-2">{{ $product->category->name }}</td>
                     <td class="px-4 py-2">{{ $product->price }}</td>
