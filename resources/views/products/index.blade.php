@@ -83,7 +83,8 @@
                     <td class="px-4 py-2">{{ $product->id }}</td>
                     <td class="px-4 py-2">{{ $product->name }}</td>
                     <td class="px-4 py-2">
-                        <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}">
+                        <img src="{{ asset('images/products/' . $product->image) }}" width="100"
+                             height="100" alt="{{ $product->name }}">
                     </td>
                     <td class="px-4 py-2">{{ $product->type->name }}</td>
                     <td class="px-4 py-2">{{ $product->category->name }}</td>
@@ -91,24 +92,56 @@
                     <livewire:product-quantity :currentQuantity="$product->pivot->quantity" :id="$product->id" />
                     <td class="px-4 py-2">{{ $product->importation_date }}</td>
                     <td class="px-4 py-2">{{ $product->expiration_date }}</td>
-                    <td>
-                        <button class="btn btn-outline-primary">
-                            <a href="{{ route("products.show",['product' => $product->id]) }}">
-                                Show
-                            </a>
+                    <td class="text-center">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-outline-dark"
+                                data-bs-toggle="modal" data-bs-target="#actionsModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                            </svg>
                         </button>
-                        <button class="btn btn-outline-warning">
-                            <a href="{{ route("products.edit",['product' => $product->id]) }}">
-                                Edit
-                            </a>
-                        </button>
-                        <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-outline-danger font-bold py-2 px-4 rounded ml-2">
-                                Delete
-                            </button>
-                        </form>
+                        <!-- Modal -->
+                        <div class="modal fade" id="actionsModal" tabindex="-1"
+                             aria-labelledby="actionsModal" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $product->name }}</h1>
+                                        <button type="button" class="btn-close"
+                                                data-bs-dismiss="modal" aria-label="Close">
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img src="{{ asset('images/products/' . $product->image) }}" width="200"
+                                             height="200" alt="{{ $product->name }}">
+                                        <div class="flex gap-2">
+                                            <button class="btn btn-outline-primary">
+                                                <a href="{{ route("products.show",['product' => $product->id]) }}">
+                                                    Show
+                                                </a>
+                                            </button>
+                                            <button class="btn btn-outline-warning">
+                                                <a href="{{ route("products.edit",['product' => $product->id]) }}">
+                                                    Edit
+                                                </a>
+                                            </button>
+                                            <form action="{{ route('products.destroy', ['product' => $product->id]) }}"
+                                                  method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="btn btn-outline-danger font-bold py-2 px-4 rounded ml-2">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </td>
                 </tr>
             @endforeach
