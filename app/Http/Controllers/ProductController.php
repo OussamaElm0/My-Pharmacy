@@ -77,9 +77,8 @@ class ProductController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $productsExist = Product::where('name', $request->name)->first();
+        $productsExist = Product::where('name',$request->name)->first();
 
-        //Check if the product exists or not
         if (!$productsExist) {
             $imageName = time() . "." . $request->file('image')->getClientOriginalExtension();
             $request->file('image')->move(public_path('images/products'), $imageName);
