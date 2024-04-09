@@ -40,7 +40,9 @@ class TypeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('types.show', [
+            'type' => Type::find($id),
+        ]);
     }
 
     /**
