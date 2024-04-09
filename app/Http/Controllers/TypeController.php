@@ -14,18 +14,9 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $products = Auth::user()->pharmacy
-                ->products()
-                ->get();
-        $type = [];
-        foreach ($products as $product):
-            array_push($type,$product->type->name);
-            $types = array_unique($type);
-        endforeach;
-        foreach (Type::all() as $typee):
-            dd($typee->products);
-        endforeach;
-        dd($types);
+        return view('types.index', [
+            'types' => Type::all(),
+        ]);
     }
 
     /**
