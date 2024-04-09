@@ -2,7 +2,9 @@
 
 @section('content')
     @if(session('success'))
-        <h1>{{ session('success') }}</h1>
+        <div class="alert alert-success mt-1" role="alert">
+            {{ session('success') }}
+        </div>
     @endif
     <table class="table-auto w-full bg-white shadow-md rounded-lg">
         <thead class="bg-gray-50">
