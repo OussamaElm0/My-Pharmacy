@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FileController;
-use App\Http\Controllers\TypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +45,6 @@ Route::middleware(['auth', 'isAdmin'])->group(function() {
 
 Route::middleware(['auth','haveAccessProducts'])->group(function (){
     Route::resource('products',ProductController::class);
-    Route::resource('types',TypeController::class);
     Route::controller(FileController::class)->group(function (){
         Route::get('/download/products','downloadProducts')->name('download.products');
     });
@@ -60,4 +58,6 @@ Route::middleware(['auth','haveAccessProducts'])->group(function (){
     });
 });
 
+
 require __DIR__.'/auth.php';
+require  __DIR__.'/superuser.php';

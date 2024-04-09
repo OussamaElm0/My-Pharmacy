@@ -21,9 +21,15 @@
                         </x-nav-link>
                     @endif
 
-                    @if(Auth::user()->role->name != "Cashier")
+                    @if(Auth::user()->role->name != ("Cashier" or "Superuser") )
                         <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
                             {{ __('Products') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if(Auth::user()->role->name == "Superuser")
+                        <x-nav-link :href="route('types.index')" :active="request()->routeIs('types.index')">
+                                {{ __('Types') }}
                         </x-nav-link>
                     @endif
                 </div>
