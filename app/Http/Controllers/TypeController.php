@@ -50,7 +50,9 @@ class TypeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('types.edit', [
+            'type' => Type::find($id)
+        ]);
     }
 
     /**
@@ -58,7 +60,10 @@ class TypeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $type = Type::find($id);
+        $type->update($request->all());
+
+        return redirect()->route('types.index')->with('success','Type was updated successfully');
     }
 
     /**

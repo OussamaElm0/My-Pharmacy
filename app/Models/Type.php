@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Type extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'name'
+    ];
 
     public function products()
     {
