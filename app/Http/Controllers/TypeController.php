@@ -71,6 +71,8 @@ class TypeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Type::findOrFail($id)->delete();
+
+        return redirect()->route('types.index')->with('success', 'Type was deleted succefully');
     }
 }
