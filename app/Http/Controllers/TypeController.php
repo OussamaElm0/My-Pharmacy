@@ -24,7 +24,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('types.create');
     }
 
     /**
@@ -32,7 +32,13 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:3'
+        ]);
+
+        Type::create($request->all());
+
+        return redirect()->route('types.index')->with('success', 'Type created successfully');
     }
 
     /**
