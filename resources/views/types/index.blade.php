@@ -6,7 +6,7 @@
             {{ session('success') }}
         </div>
     @endif
-    <a href="{{ route('types.create') }}">Create</a>
+    <a href="{{ route('types.create') }}" class="btn bg-success text-light p-2 m-2">Create</a>
     <table class="table-auto w-full bg-white shadow-md rounded-lg">
         <thead class="bg-gray-50">
         <tr>
