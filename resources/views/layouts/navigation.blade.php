@@ -16,20 +16,25 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @if(Auth::user()->role->name == "Administrator")
-                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                        <x-nav-link :href="route('users.index')" :active="request()->is('users*')">
                             {{ __('Users') }}
                         </x-nav-link>
                     @endif
 
-                    @if(Auth::user()->role->name != ("Cashier" or "Superuser") )
-                        <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+                    @if (!in_array(Auth::user()->role->name, ['Cashier', 'Superuser']))
+                        <x-nav-link :href="route('products.index')" :active="request()->is('products*')">
                             {{ __('Products') }}
                         </x-nav-link>
                     @endif
 
-                    @if(Auth::user()->role->name == "Superuser")
-                        <x-nav-link :href="route('types.index')" :active="request()->routeIs('types.index')">
+
+                @if(Auth::user()->role->name == "Superuser")
+                        <x-nav-link :href="route('types.index')" :active="request()->is('types*')">
                                 {{ __('Types') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('categories.index')" :active="request()->is('categories*')">
+                            {{ __('Category') }}
                         </x-nav-link>
                     @endif
                 </div>
