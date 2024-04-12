@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OutOfStockEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Pharmacy;
@@ -140,16 +141,22 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->update($request->all());
 
+        $this->updateQuantity($id, $request->quantity);
+
         return redirect()->route("products.index");
     }
     public static function updateQuantity(string $id, int $newQuantity)
     {
         $product = Product::find($id);
         $pharmacy = Auth::user()
-                    ->pharmacy
-                    ->id;
+                    ->pharmacy;
         $product->pharmacies()
-                ->updateExistingPivot($pharmacy, ['quantity' => $newQuantity]);
+                ->updateExistingPivot($pharmacy->id, ['quantity' => $newQuantity]);
+
+        if($newQuantity <= 10) {
+            $users = User::where("pharmacy_id", "=", $pharmacy->id)->get();
+            event(new OutOfStockEvent($product, $users, $pharmacy));
+        }
         $product->save();
     }
 

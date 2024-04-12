@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\OutOfStockEvent;
 use App\Events\UserCreatedEvent;
+use App\Listeners\SendCurrentQuantityNotification;
 use App\Listeners\SendVerificationMailListner;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -23,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         UserCreatedEvent::class => [
             SendVerificationMailListner::class,
         ],
+        OutOfStockEvent::class => [
+            SendCurrentQuantityNotification::class,
+        ]
     ];
 
     /**

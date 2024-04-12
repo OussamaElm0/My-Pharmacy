@@ -49,7 +49,7 @@
                             <!-- Quantity -->
                             <div>
                                 <x-input-label for="quantity" :value="__('Quantity')" />
-                                <x-text-input id="quantity" class="block mt-1 w-full" type="number" step="1" min="0" name="quantity" :value="old('quantity', $product->quantity)" required autofocus autocomplete="name" />
+                                <x-text-input id="quantity" class="block mt-1 w-full" type="number" step="1" min="0" name="quantity" :value="old('quantity', $product->pivot->quantity)" required autofocus autocomplete="name" />
                                 <x-input-error :messages="$errors->get('quantity')" class="mt-2" />
                             </div>
 
