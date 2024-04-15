@@ -54,7 +54,9 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('categories.edit', [
+            'category' => Category::find($id),
+        ]);
     }
 
     /**
@@ -62,7 +64,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category = Category::find($id);
+
+        $category->update($request->all());
+
+        $flashMessage = "Category: " . $category->name . " was updated successfully" ;
+
+        return redirect()->route("categories.index")->with('success',$flashMessage);
     }
 
     /**
