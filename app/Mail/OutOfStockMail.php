@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -18,7 +19,7 @@ class OutOfStockMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public Product $product)
+    public function __construct(public Product $product, public User $user, public Int $quantity)
     {
         //
     }
@@ -42,7 +43,8 @@ class OutOfStockMail extends Mailable
         return new Content(
             view: 'mails.out-of-stock',
             with: [
-                'product' => $this->product
+                'product' => $this->product,
+                'user' => $this->user
             ],
         );
     }

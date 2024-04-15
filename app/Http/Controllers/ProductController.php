@@ -153,9 +153,10 @@ class ProductController extends Controller
         $product->pharmacies()
                 ->updateExistingPivot($pharmacy->id, ['quantity' => $newQuantity]);
 
+        $quantity = $product->pharmacies()->where('pharmacy_id', $pharmacy->id)->first()->pivot->quantity;
         if($newQuantity <= 10) {
             $users = User::where("pharmacy_id", "=", $pharmacy->id)->get();
-            event(new OutOfStockEvent($product, $users, $pharmacy));
+            event(new OutOfStockEvent($product, $users, $pharmacy, $quantity));
         }
         $product->save();
     }

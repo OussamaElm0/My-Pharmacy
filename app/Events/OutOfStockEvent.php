@@ -20,11 +20,12 @@ class OutOfStockEvent
     /**
      * Create a new event instance.
      */
-    public function __construct(Product $product, $users, $pharmacy)
+    public function __construct(Product $product, $users, $pharmacy, $pivotValue)
     {
         $this->product = $product;
         $this->users = $users;
         $this->pharmacy = $pharmacy;
+        $this->quantity = $pivotValue;
     }
 
     /**

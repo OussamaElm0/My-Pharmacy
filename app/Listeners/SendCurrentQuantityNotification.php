@@ -31,7 +31,7 @@ class SendCurrentQuantityNotification
                 . $event->product->name . " on event 'OutOfStockEvent'"
             );
            foreach ($event->users as $user) :
-              Mail::to($user->email)->send(new OutOfStockMail($event->product));
+                Mail::to($user->email)->send(new OutOfStockMail($event->product, $user, $event->quantity));
            endforeach;
         } catch (Exception $exception) {
             Log::error("Mail failed: " . $exception);
