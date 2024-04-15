@@ -34,7 +34,7 @@
                         </x-nav-link>
 
                         <x-nav-link :href="route('categories.index')" :active="request()->is('categories*')">
-                            {{ __('Category') }}
+                            {{ __('Categories') }}
                         </x-nav-link>
                     @endif
                 </div>
