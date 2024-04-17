@@ -13,7 +13,7 @@ class CreateUser extends Command
      *
      * @var string
      */
-    protected $signature = 'app:create-user {--s|--superuser}';
+    protected $signature = 'app:create-user {--s|--superuser} {--p|--password}';
 
     /**
      * The console command description.
@@ -35,7 +35,13 @@ class CreateUser extends Command
             $password = "mypharmacy@";
 
             if($isSuperuser){
-                $password .= "superuser";
+
+                if ($this->option("password")) {
+                    $password = $this->ask('Enter your costumizable pasword');
+                } else {
+                    $password .= "superuser";
+                }
+
                 User::create([
                     'name' => $name,
                     "email" => $email,
