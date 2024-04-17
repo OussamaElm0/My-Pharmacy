@@ -11,6 +11,9 @@ class Pharmacy extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'inpe',
+    ];
     public function products()
     {
         return $this->belongsToMany(Product::class, "pharmacy_product")->withPivot('quantity');
