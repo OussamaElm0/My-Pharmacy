@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Pharmacy;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
 use PharIo\Manifest\Exception;
@@ -35,27 +37,44 @@ class CreateUser extends Command
             $password = "mypharmacy@";
 
             if($isSuperuser){
-
                 if ($this->option("password")) {
                     $password = $this->ask('Enter your costumizable pasword');
                 } else {
                     $password .= "superuser";
                 }
+                $pharmacyId = 1;
+                $roleId = 6;
 
-                User::create([
-                    'name' => $name,
-                    "email" => $email,
-                    "cni" => $cni,
-                    "password" => $password,
-                    "pharmacy_id" => 1,
-                    "role_id" => 6
-                ]);
-                $this->info("email :" . $email);
-                $this->info("password: " . $password);
             } else {
-                $role = $this->choice("Role", ['admin','cashier', 'invetory manager']);
-                $this->alert($role);
+                $roles = Role::where('id',"!=",6)
+                        ->pluck("name",'id')
+                        ->toArray();
+                $roleName = $this->choice("Roles",$roles);
+                $roleId = array_search($roleName, $roles);
+
+                $pharmacies = Pharmacy::where('id',"!=", 1)
+                            ->pluck('inpe','id')
+                            ->toArray();
+                $pharmacy = $this->choice('Pharmacy',$pharmacies);
+                $pharmacyId = array_search($pharmacy,$pharmacies);
+
+                if ($this->option("password")) {
+                    $password = $this->ask('Enter your costumizable pasword');
+                } else {
+                    $password .= $roleName;
+                }
             }
+
+            User::create([
+                'name' => $name,
+                "email" => $email,
+                "cni" => $cni,
+                "password" => $password,
+                "pharmacy_id" => $pharmacyId,
+                "role_id" => $roleId
+            ]);
+            $this->alert("email : $email");
+            $this->alert("password: $password");
         } catch (Exception $exception) {
             $this->error($exception);
         }
