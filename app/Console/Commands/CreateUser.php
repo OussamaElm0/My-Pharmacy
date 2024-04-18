@@ -38,7 +38,7 @@ class CreateUser extends Command
 
             if($isSuperuser){
                 if ($this->option("password")) {
-                    $password = $this->ask('Enter your costumizable pasword');
+                    $password = $this->secret('Enter your costumizable pasword');
                 } else {
                     $password .= "superuser";
                 }
