@@ -29,6 +29,10 @@
 
 
                 @if(Auth::user()->role->name == "Superuser")
+                        <x-nav-link :href="route('superuser.users.index')" :active="request()->is('superuser/users*')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+
                         <x-nav-link :href="route('types.index')" :active="request()->is('types*')">
                                 {{ __('Types') }}
                         </x-nav-link>
