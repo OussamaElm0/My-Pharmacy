@@ -74,7 +74,7 @@ class UserController extends Controller
 
         event(new UserCreatedEvent($user));
 
-        return redirect(RouteServiceProvider::DASHBOARD)->with('success', 'User created succefully');
+        return redirect()->route('users.index')->with('success', 'User created succefully');
     }
 
     /**
