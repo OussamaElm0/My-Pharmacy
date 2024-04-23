@@ -3,7 +3,9 @@
     <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
 @endpush
 @section('content')
-
+    <div class="users-nav">
+        <a href="{{ route('superuser.users.create') }}" class="btn bg-success text-light p-2 m-2">Create user</a>
+    </div>
     <div class="overflow-x-auto">
         <table class="table-auto w-full bg-white shadow-md rounded-lg">
             <thead class="bg-gray-50">
