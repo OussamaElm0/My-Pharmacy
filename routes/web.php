@@ -59,6 +59,11 @@ Route::middleware(['auth','haveAccessProducts'])->group(function (){
 
 Route::middleware('isAdminOrSuperUser')->group(function() {
     Route::resource('users',UserController::class);
+    Route::controller(UserController::class)->group(function() {
+        Route::get('register','create')
+            ->name('register');
+        Route::post('register','store');
+    });
 });
 
 require __DIR__.'/auth.php';

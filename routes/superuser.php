@@ -12,6 +12,5 @@ Route::middleware('isSuperUser')->group(function (){
     Route::controller(SuperuserController::class)->group(function () {
         Route::get('superuser/users','users_index')->name('superuser.users.index');
         Route::get('superuser/users/create','users_create')->name('superuser.users.create');
-        Route::post('superuser/users','users_store')->name('superuser.users.store');
     });
 });
