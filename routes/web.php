@@ -32,8 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'isAdmin'])->group(function() {
-    Route::resource('users',UserController::class);
+Route::middleware(['isSuperUser', 'isAdmin'])->group(function() {
     Route::controller(UserController::class)->group(function() {
         Route::get('users/roles/{role}','byRole')->name('users.byRole');
         Route::post('/users/search','search')->name('users.search');
@@ -58,6 +57,9 @@ Route::middleware(['auth','haveAccessProducts'])->group(function (){
     });
 });
 
+Route::middleware('isAdminOrSuperUser')->group(function() {
+    Route::resource('users',UserController::class);
+});
 
 require __DIR__.'/auth.php';
 require  __DIR__.'/superuser.php';

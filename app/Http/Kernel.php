@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'isAdmin' => \App\Http\Middleware\CheckIfAdmin::class,
         'haveAccessProducts' => \App\Http\Middleware\AccessToProducts::class,
         'isSuperUser' => \App\Http\Middleware\CheckSuperUser::class,
+        'isAdminOrSuperUser' => \App\Http\Middleware\IsAdminOrSuperUser::class,
     ];
 }

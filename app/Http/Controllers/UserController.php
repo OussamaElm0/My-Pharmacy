@@ -68,7 +68,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'cni' => $request->cni,
-            'pharmacy_id' => Auth::user()->pharmacy->id,
+            'pharmacy_id' => $request->pharmacy_id ?? Auth::user()->pharmacy->id,
             'role_id' => $request->role_id,
         ]);
 

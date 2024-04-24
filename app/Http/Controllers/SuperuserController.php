@@ -25,26 +25,4 @@ class SuperuserController extends Controller
             'roles' => Role::all()
         ]);
     }
-    public function users_store(Request $request)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role_id' => ['required'],
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'cni' => $request->cni,
-            'pharmacy_id' => $request->pharmacy_id,
-            'role_id' => $request->role_id,
-        ]);
-
-        event(new UserCreatedEvent($user));
-
-        return redirect()->route('superuser.users.index')->with('success', 'User created succefully');
-    }
 }
