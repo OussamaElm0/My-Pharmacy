@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pharmacy;
 use Illuminate\Http\Request;
 
 class PharmacyController extends Controller
@@ -12,7 +13,9 @@ class PharmacyController extends Controller
      */
     public function index()
     {
-        //
+        return view('pharmacies.index',[
+            'pharmacies' => Pharmacy::all(),
+        ]);
     }
 
     /**
@@ -20,7 +23,7 @@ class PharmacyController extends Controller
      */
     public function create()
     {
-        //
+        return view('pharmacies.create');
     }
 
     /**
@@ -28,7 +31,12 @@ class PharmacyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'inpe' => 'required'
+        ]);
+        Pharmacy::create($request->all());
+
+        return redirect()->route('pharmacies.index')->with('success', 'Pharmacy created successfully');
     }
 
     /**
@@ -36,7 +44,9 @@ class PharmacyController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('pharmacies.show', [
+            'pharmacy' => Pharmacy::find($id)
+        ]);
     }
 
     /**
@@ -44,7 +54,9 @@ class PharmacyController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('pharmacies.edit', [
+            'pharmacy' => Pharmacy::find($id)
+        ]);
     }
 
     /**
@@ -52,7 +64,12 @@ class PharmacyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'inpe' => 'required'
+        ]);
+        Pharmacy::find($id)->update($request->all());
+
+        return redirect()->route('pharmacies.index')->with('success', 'Pharmacy updated successfully');
     }
 
     /**
@@ -60,6 +77,8 @@ class PharmacyController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Pharmacy::destroy($id);
+
+        return redirect()->route('pharmacies.index');
     }
 }

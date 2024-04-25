@@ -1,0 +1,50 @@
+@extends('layouts.app')
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
+@endpush
+@section('content')
+    @if(session('success'))
+        <div class="alert alert-success mt-1" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+    <div class="pharmacies-nav">
+        <a href="{{ route('pharmacies.create') }}" class="btn bg-success text-light p-2 m-2">Create pharmacy</a>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="table-auto w-full bg-white shadow-md rounded-lg">
+            <thead class="bg-gray-50">
+            <tr>
+                <th class="px-4 py-2 text-left"> # </th>
+                <th class="px-4 py-2 text-left"> Name </th>
+                <th class="px-4 py-2 text-left"> Actions </th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+            @foreach($pharmacies as $pharmacy)
+                <tr>
+                    <td class="px-4 py-2">{{ $pharmacy->id }}</td>
+                    <td class="px-4 py-2">{{ $pharmacy->INPE }}</td>
+                    <td class="px-4 py-2">
+                        <div class="flex">
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                <a href="{{ route('pharmacies.show', ['pharmacy' => $pharmacy]) }}" style="text-decoration: none; color: #4fef15;">Show</a>
+                            </button>
+                            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2">
+                                <a href="{{ route("pharmacies.edit", ["pharmacy" => $pharmacy->id]) }}" style="text-decoration: none; color: #0c4ae8;">Update</a>
+                            </button>
+                            <form action="{{ route('pharmacies.destroy', ['pharmacy' => $pharmacy]) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+@endsection
