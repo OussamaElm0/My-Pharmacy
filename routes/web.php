@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FileController;
+use App\Models\User;
+use App\Models\Type;
+use App\Models\Category;
+use App\Models\Pharmacy;
+use \App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +28,16 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    switch (Auth::user()->role->name){
+        case "Superuser":
+            return view('dashboard', [
+                'users' => User::all()->count(),
+                'types' => Type::all()->count(),
+                'categories' => Category::all()->count(),
+                'pharmacies' => Pharmacy::all()->count(),
+                'products' => Product::all()->count()
+            ]);
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
