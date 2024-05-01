@@ -35,4 +35,8 @@ class Product extends Model
     {
         return $this->belongsToMany(Pharmacy::class, "pharmacy_product")->withPivot('quantity');
     }
+    public function ventes()
+    {
+        return $this->hasMany(Vente::class);
+    }
 }
