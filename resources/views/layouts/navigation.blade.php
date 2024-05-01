@@ -45,6 +45,12 @@
                             {{ __('Categories') }}
                         </x-nav-link>
                     @endif
+
+                    @if(in_array(Auth::user()->role->name,['Administrator', 'Cashier']))
+                        <x-nav-link :href="route('ventes.index')" :active="request()->is('ventes*')">
+                            {{ __('Ventes') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 

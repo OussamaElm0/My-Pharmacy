@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Pharmacy::class)->constrained();
             $table->foreignIdFor(Product::class)->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

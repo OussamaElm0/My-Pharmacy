@@ -1,0 +1,11 @@
+.ventes-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+.ventes-body .btn {
+    width: 250px;
+}

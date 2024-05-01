@@ -11,6 +11,7 @@ use App\Models\Type;
 use App\Models\Category;
 use App\Models\Pharmacy;
 use \App\Models\Product;
+use \App\Http\Controllers\VenteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,16 +29,22 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    $data = [];
     switch (Auth::user()->role->name){
         case "Superuser":
-            return view('dashboard', [
+            $data = [
                 'users' => User::all()->count(),
                 'types' => Type::all()->count(),
                 'categories' => Category::all()->count(),
                 'pharmacies' => Pharmacy::all()->count(),
                 'products' => Product::all()->count()
-            ]);
+            ];
+            break;
+        case "Administrator":
+            $data = [];
+            break;
     }
+    return view('dashboard',$data);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -79,6 +86,8 @@ Route::middleware('isAdminOrSuperUser')->group(function() {
         Route::post('register','store');
     });
 });
+
+Route::resource('ventes',VenteController::class);
 
 require __DIR__.'/auth.php';
 require  __DIR__.'/superuser.php';
