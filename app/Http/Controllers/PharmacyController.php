@@ -32,9 +32,15 @@ class PharmacyController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'inpe' => 'required'
+            'inpe' => 'required',
+            'city' => 'required|min:3|string',
+            'address' => 'required|min:4|string',
         ]);
-        Pharmacy::create($request->all());
+        Pharmacy::create([
+            'inpe' => $request->inpe,
+            'city' => $request->city,
+            'address' => $request->address,
+        ]);
 
         return redirect()->route('pharmacies.index')->with('success', 'Pharmacy created successfully');
     }

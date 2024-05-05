@@ -13,6 +13,8 @@ class Pharmacy extends Model
 
     protected $fillable = [
         'inpe',
+        'city',
+        'address',
     ];
     public function products()
     {

@@ -17,6 +17,8 @@
             <tr>
                 <th class="px-4 py-2 text-left"> # </th>
                 <th class="px-4 py-2 text-left"> Name </th>
+                <th class="px-4 py-2 text-left"> City </th>
+                <th class="py-2 px-4 text-left"> Address </th>
                 <th class="px-4 py-2 text-left"> Actions </th>
             </tr>
             </thead>
@@ -25,6 +27,20 @@
                 <tr>
                     <td class="px-4 py-2">{{ $pharmacy->id }}</td>
                     <td class="px-4 py-2">{{ $pharmacy->INPE }}</td>
+                    @if(!$pharmacy->city)
+                        <td class="px-4 py-2 text-danger h6">This data is unavailable</td>
+                    @else
+                        <td class="px-4 py-2 h6">
+                            {{ $pharmacy->city }}
+                        </td>
+                    @endif
+                    @if(!$pharmacy->address)
+                        <td class="px-4 py-2 text-danger h6">This data is unavailable</td>
+                    @else
+                        <td class="px-4 py-2 h6">
+                            {{ $pharmacy->address }}
+                        </td>
+                    @endif
                     <td class="px-4 py-2">
                         <div class="flex">
                             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

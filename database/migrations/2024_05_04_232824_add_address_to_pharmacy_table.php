@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pharmacies', function (Blueprint $table) {
-            $table->string('city');
-            $table->string('address');
+            $table->string('city')->after('inpe');
+            $table->string('address')->after('city');
         });
     }
 
