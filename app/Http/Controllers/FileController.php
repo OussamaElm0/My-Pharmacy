@@ -39,4 +39,8 @@ class FileController extends Controller
 
         return response()->download($filePath)->deleteFileAfterSend(true);
     }
+    public function downloadPharmacies(string $format)
+    {
+        dd($format);
+    }
 }

@@ -12,7 +12,7 @@
             </a>
         </button>
         <button class="btn btn-outline-danger">
-            <a href="{{ route('ventes.destroy ') }}">
+            <a href="{{ route('ventes.cancel') }}">
                 Cancel
             </a>
         </button>

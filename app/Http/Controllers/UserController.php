@@ -74,7 +74,11 @@ class UserController extends Controller
 
         event(new UserCreatedEvent($user));
 
-        return redirect()->route('users.index')->with('success', 'User created succefully');
+        if (Auth::user()->role->name == "Superuser"){
+            return redirect()->route('superuser.users.index')->with('success', 'User created successfully');
+        }
+
+        return redirect()->route('users.index')->with('success', 'User created successfully');
     }
 
     /**
@@ -123,6 +127,10 @@ class UserController extends Controller
         $user->role_id = $request->role_id;
 
         $user->save();
+
+        if (Auth::user()->role->name == "Superuser"){
+            return redirect()->route('superuser.users.index')->with('success', 'User created successfully');
+        }
 
         return redirect()->route('users.show', ['user' => $user->id]);
     }

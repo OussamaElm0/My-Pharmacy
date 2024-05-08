@@ -88,6 +88,7 @@ Route::middleware('isAdminOrSuperUser')->group(function() {
 });
 
 Route::resource('ventes',VenteController::class);
+Route::get('/ventes/cancel', [VenteController::class, 'cancel'])->name('ventes.cancel');
 
 require __DIR__.'/auth.php';
 require  __DIR__.'/superuser.php';

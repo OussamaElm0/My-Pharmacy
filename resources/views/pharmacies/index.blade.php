@@ -8,8 +8,17 @@
             {{ session('success') }}
         </div>
     @endif
-    <div class="pharmacies-nav">
+    <div class="users-nav">
         <a href="{{ route('pharmacies.create') }}" class="btn bg-success text-light p-2 m-2">Create pharmacy</a>
+        <div class="dropdown m-2">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Download
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ route('download.pharmacies', ['format' => 'pdf']) }}">PDF</a></li>
+                <li><a class="dropdown-item" href="{{ route('download.pharmacies', ['format' => 'csv']) }}">CSV</a></li>
+            </ul>
+        </div>
     </div>
     <div class="overflow-x-auto">
         <table class="table-auto w-full bg-white shadow-md rounded-lg">

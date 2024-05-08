@@ -24,6 +24,14 @@ class VenteController extends Controller
     }
 
     /**
+     * Scan the qr code of product to cancel it
+     */
+    public function cancel()
+    {
+        //
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)

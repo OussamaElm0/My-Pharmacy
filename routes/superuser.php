@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use \App\Http\Controllers\SuperuserController;
 use \App\Http\Controllers\UserController;
 use App\Http\Controllers\PharmacyController;
+use \App\Http\Controllers\FileController;
 
 Route::middleware('isSuperUser')->group(function (){
     Route::resource('types',TypeController::class);
@@ -16,4 +17,6 @@ Route::middleware('isSuperUser')->group(function (){
         Route::get('superuser/users/create','users_create')->name('superuser.users.create');
         Route::get('superuser/products','products_index')->name('superuser.products.index');
     });
+    Route::get('/download/pharmacies/{format}',[FileController::class,'downloadPharmacies'])
+            ->name('download.pharmacies');
 });

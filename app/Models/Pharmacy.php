@@ -27,4 +27,8 @@ class Pharmacy extends Model
     {
         return $this->hasMany(Vente::class);
     }
+    public function subscription()
+    {
+        return $this->belongsTo(Subscription::class);
+    }
 }
