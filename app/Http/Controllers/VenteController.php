@@ -67,16 +67,18 @@ class VenteController extends Controller
         $product = $pharmacy->products()->find($id);
 
         if (!is_null($product)){
-            $product->pivot->quantity++;
-            $product->pivot->save();
-
             $vente = Vente::where('pharmacy_id',$pharmacy->id)
-                          ->where('product_id','product_id')
-                          ->first();
+                            ->where('product_id',$product->id)
+                            ->first();
             if ($vente){
+                $product->pivot->quantity++;
+                $product->pivot->save();
                 $vente->delete();
+                return redirect()->route('ventes.index')->with('success', 'The sale has been canceled successfully.');
+            } else {
+                return redirect()->back()->with('error', 'This sale doesn\'t exist. Please check the code');
             }
-            return redirect()->route('ventes.index')->with('success', 'The sale has been canceled successfully.');
+
         }
         return redirect()->back()->with('error', 'This product doesn\'t exist. Please check the code');
     }
