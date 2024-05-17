@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pharmacy;
+use App\Models\Vente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,7 +23,7 @@ class VenteController extends Controller
      */
     public function cancel()
     {
-        //
+        return view('ventes.cancel');
     }
 
     /**
@@ -46,40 +47,37 @@ class VenteController extends Controller
         if(!is_null($product)) {
             $product->pivot->quantity--;
             $product->pivot->save();
-            return redirect()->route('ventes.index')->with('success', 'This sale was passed successfully');
+            Vente::create([
+                'pharmacy_id' => $pharmacy->id,
+                'product_id' => $product->id,
+            ]);
+            return redirect()->route('ventes.index')->with('success', 'This sale has been passed successfully');
         }
         return redirect()->back()->with('error', 'This product doesn\'t exist. Please check the code');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $pharmacy = Auth::user()->pharmacy;
+        $id = $request->id;
+
+        $product = $pharmacy->products()->find($id);
+
+        if (!is_null($product)){
+            $product->pivot->quantity++;
+            $product->pivot->save();
+
+            $vente = Vente::where('pharmacy_id',$pharmacy->id)
+                          ->where('product_id','product_id')
+                          ->first();
+            if ($vente){
+                $vente->delete();
+            }
+            return redirect()->route('ventes.index')->with('success', 'The sale has been canceled successfully.');
+        }
+        return redirect()->back()->with('error', 'This product doesn\'t exist. Please check the code');
     }
 }

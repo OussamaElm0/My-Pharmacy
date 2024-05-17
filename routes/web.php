@@ -87,9 +87,12 @@ Route::middleware('isAdminOrSuperUser')->group(function() {
     });
 });
 
-Route::resource('ventes',VenteController::class);
+Route::resource('ventes',VenteController::class)
+        ->only(['index','create', 'store']);
 Route::get('ventes/cancel',[VenteController::class, 'cancel'])
         ->name('ventes.cancel');
+Route::delete('ventes',[VenteController::class,'destroy'])
+        ->name('ventes.destroy');
 
 require __DIR__.'/auth.php';
 require  __DIR__.'/superuser.php';
