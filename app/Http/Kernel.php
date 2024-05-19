@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\CheckIfAdmin;
+use App\Http\Middleware\CheckSuperuserOrAdmin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Support\Facades\App;
 
@@ -70,5 +71,6 @@ class Kernel extends HttpKernel
         'haveAccessProducts' => \App\Http\Middleware\AccessToProducts::class,
         'isSuperUser' => \App\Http\Middleware\CheckSuperUser::class,
         'isAdminOrSuperUser' => \App\Http\Middleware\IsAdminOrSuperUser::class,
+        'haveUserAccess' => CheckSuperuserOrAdmin::class,
     ];
 }
