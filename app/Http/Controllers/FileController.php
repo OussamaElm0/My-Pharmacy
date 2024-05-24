@@ -31,7 +31,7 @@ class FileController extends Controller
         $content = "Id;Name;Price;Quantity;Type;Category;Date Importation;Date Expiration\n";
 
         foreach ($products as $product) :
-            $content .= $product->id . ";" . $product->name . ";" . $product->price . ";" . $product->quantity . ";" . $product->type->name . ";"  . $product->category->name . ';' . $product->importation_date . ";" . $product->expiration_date . "\n"  ;
+            $content .= $product->id . ";" . $product->name . ";" . $product->price . ";" . $product->pivot->quantity . ";" . $product->type->name . ";"  . $product->category->name . ';' . $product->importation_date . ";" . $product->expiration_date . "\n"  ;
         endforeach;
 
         Storage::put($file, $content);
