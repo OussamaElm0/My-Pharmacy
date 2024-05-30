@@ -11,7 +11,7 @@
                         <p><strong>ID:</strong> {{ $product->id }}</p>
                         <p><strong>Name:</strong> {{ $product->name }}</p>
                         <p><strong>Price:</strong> {{ $product->price }}</p>
-                        <p><strong>Quantity:</strong> {{ $product->quantity }}</p>
+                        <p><strong>Quantity:</strong> {{ $product->pivot->quantity }}</p>
                         <p><strong>Date importation:</strong> {{ $product->importation_date }}</p>
                         <p><strong>Date expiration:</strong> {{ $product->expiration_date }}</p>
                         <img src="{{ asset('images/products/' . $product->image) }}" width="250"
