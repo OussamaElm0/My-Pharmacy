@@ -89,8 +89,11 @@ class UserController extends Controller
         if(empty($request->search)) {
             return redirect()->route("users.index");
         }
+        $pharmacy_id = Auth::user()->pharmacy->id;
         $search = '%' . $request->search . '%';
-        $users = User::where('name','like',$search)->paginate(5);
+        $users = User::where('name','like',$search)
+                        ->where('pharmacy_id',$pharmacy_id)
+                        ->paginate(5);
         return view('admin.usersList', [
             'users' => $users,
             'roles' => Role::all(),

@@ -16,7 +16,9 @@ class AccessToProducts
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $currentRole = Auth::user()->role->name ;
-        return  $currentRole == "Inventory Manager" || $currentRole == "Administrator" ?  $next($request) : redirect()->back();
+        if(in_array(Auth::user()->role->name,['Invetory manager','Administrator'])){
+            return $next($request);
+        }
+        return redirect()->back();
     }
 }

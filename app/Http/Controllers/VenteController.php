@@ -34,13 +34,6 @@ class VenteController extends Controller
         return view('ventes.create');
     }
 
-    /**
-     * Scan the qr code of product to cancel it
-     */
-    public function cancel()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
