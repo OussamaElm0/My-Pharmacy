@@ -31,15 +31,22 @@
             </div>
         </div>
 
-        @if(Auth::user()->role->name == "Superuser")
-            <x-superuser-dashboard
-                :users="$users"
-                :pharmacies="$pharmacies"
-                :types="$types"
-                :products="$products"
-                :categories="$categories"
-            />
-        @endif
+       @switch(Auth::user()->role->name)
+           @case("Superuser")
+               <x-superuser-dashboard
+                    :users="$users"
+                    :pharmacies="$pharmacies"
+                    :types="$types"
+                    :products="$products"
+                    :categories="$categories"
+               />
+               @break
+           @case("Administrator")
+                <x-administrator-dashboard
+                    :products="$products"
+                    :users="$users"
+                />
+       @endswitch
 
     @endsection
 </x-app-layout>

@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\Pharmacy;
 use \App\Models\Product;
 use \App\Http\Controllers\VenteController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +42,11 @@ Route::get('/dashboard', function () {
             ];
             break;
         case "Administrator":
-            $data = [];
+            $pharmacy = Auth::user()->pharmacy;
+            $data = [
+                "products" => $pharmacy->products->count(),
+                "users" => $pharmacy->users->count(),
+            ];
             break;
     }
     return view('dashboard',$data);

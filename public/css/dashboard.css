@@ -1,4 +1,6 @@
-.statistics {
+.statistics,
+.administrator-dashboard{
     width:90%;
     padding-left: 5%;
 }
+
